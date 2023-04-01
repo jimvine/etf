@@ -5,6 +5,7 @@ from django.urls import include, path
 from etf.evaluation import (
     authentication_views,
     download_views,
+    evaluation_view,
     overview_views,
     submission_views,
     views,
@@ -282,6 +283,19 @@ event_date_urlpatterns = [
     ),
 ]
 
+evaluation_view_urlpattern = [
+    path(
+        "evaluation/<uuid:evaluation_id>/",
+        lambda request, evaluation_id: redirect("evaluation-view", evaluation_id=evaluation_id),
+        name="evaluation",
+    ),
+    path(
+        "evaluation/<uuid:evaluation_id>/view/",
+        evaluation_view.evaluation_view,
+        name="evaluation-view",
+    )
+]
+
 evaluation_summary_urlpatterns = [
     path(
         "evaluation-summary/<uuid:evaluation_id>/",
@@ -334,6 +348,7 @@ urlpatterns = (
     + links_urlpatterns
     + event_date_urlpatterns
     + evaluation_summary_urlpatterns
+    + evaluation_view_urlpattern
 )
 
 handler404 = "etf.evaluation.views.view_404"

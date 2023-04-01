@@ -1,0 +1,1267 @@
+{% extends "base-redesign.html" %}
+{% import "macros.html" as macros with context %}
+
+{% block content %}
+
+
+
+
+<div class="back-bar"  >
+  <p class="small mb-0"><a href="#">Back to Search Results</a></p>
+  <div class="right">
+    <form action="#">
+      <input type="search" placeholder="Search Evaluation..." class="small" style="width:222px" />
+      <button type="submit" class="bttn-primary small">Search</button>
+    </form>
+    <a href="#" class="bttn-tertiary small">Contact</a>
+  </div>
+</div>
+
+<h2 class="header2 highlight">{% if data.evaluation.title %}{{data.evaluation.title}}{% else %}No title provided{% endif %}</h2>
+
+  <div class="sidebarcolumn">
+
+
+    <div class="col">
+
+
+
+      <nav class="menu-list">
+
+        <ul>
+          <li>
+            <a href="#background" class="active">Background</a>
+            <ul>
+              <li><a href="#overview" class="smooth-scroll">Overview</a></li>
+              <li><a href="#event-dates" class="smooth-scroll">Key Dates</a></li>
+              <li><a href="#where-else-is-this-evaluation-registered" class="smooth-scroll">Where else is this evaluation registered?</a></li>
+              <li><a href="#issue-description" class="smooth-scroll">Issue description</a></li>
+              <li><a href="#theory-of-change" class="smooth-scroll">Theory of change</a></li>
+              <li><a href="#technical-report" class="smooth-scroll">Technical report</a></li>
+            </ul>
+          </li>
+          <li>
+            {% if data.interventions | length == 0 %}
+              No interventions
+            {% else %}
+              <h3 class="body-text small mb-0">
+                <a href="#interventions" class="smooth-scroll">Interventions:</a>
+              </h3>
+              <ul>
+                {% for intervention in data.interventions %}
+                  <li><a href="#intervention-{{loop.index}}" class="smooth-scroll">{% if intervention.name %}{{intervention.name}}{% else %}Intervention #{{loop.index}}{% endif %}</a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+          
+          <li>
+            {% if data.outcome_measures | length == 0 %}
+              No outcome measures
+            {% else %}
+              <h3 class="body-text small mb-0">
+                <a href="#outcome-measures" class="smooth-scroll">
+                  Outcome measures:
+                </a>
+              </h3>
+              <ul>
+              {% for outcome_measure in data.outcome_measures %}
+                <li><a href="#outcome-measure-{{loop.index}}" class="smooth-scroll">{% if outcome_measure.name %}{{outcome_measure.name}}{% else %}Outcome measure #{{loop.index}}{% endif %}</a></li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+
+          <li>
+            {% if data.other_measures | length == 0 %}
+              No other measures
+            {% else %}
+            <h3 class="body-text small mb-0">
+              <a href="#other-measures" class="smooth-scroll">
+                Other measures:
+              </a>
+            </h3>
+              <ul>
+              {% for other_measure in data.other_measures %}
+                <li><a href="#other-measure-{{loop.index}}" class="smooth-scroll">{% if other_measure.name %}{{other_measure.name}}{% else %}Other measure #{{loop.index}}{% endif %}</a></li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+          
+          <li><a href="#evaluation-design">Evaluation design</a>
+            <ul>
+              <li><a href="#impact-evaluation-design" class="smooth-scroll">Impact evaluation design</a></li>
+              <li><a href="#process-evaluation-design" class="smooth-scroll">Process evaluation design</a></li>
+              <li><a href="#economic-evaluation-design" class="smooth-scroll">Economic evaluation design</a></li>
+              <li><a href="#other-evaluation-design" class="smooth-scroll">Other evaluation design</a></li>
+              <li><a href="#studied-population" class="smooth-scroll">Studied population</a></li>
+              <li><a href="#participant-recruitment" class="smooth-scroll">Participant recruitment</a></li>
+            </ul>         
+          </li>
+
+          <li><a href="#analysis">Analysis</a>
+            <ul>
+              <li><a href="#impact-evaluation-analysis" class="smooth-scroll">Impact evaluation analysis</a></li>
+              <li><a href="#process-evaluation-analysis" class="smooth-scroll">Process evaluation analysis</a></li>
+              <li><a href="#economic-evaluation-analysis" class="smooth-scroll">Economic evaluation analysis</a></li>
+              <li><a href="#other-evaluation-analysis" class="smooth-scroll">Other evaluation analysis</a></li>
+              {% if data.processes_and_standards | length == 0 %}
+                <li><a href="#no-processes" class="smooth-scroll">Processes</a></li>
+              {% else %}
+                </ul>
+                  <h3 class="body-text small mb-0">Processes and standards:</h3>
+                <ul>
+                {% for processes_and_standard in data.processes_and_standards %}
+                  <li><a href="#process-standard-{{loop.index}}" class="smooth-scroll">{% if processes_and_standard.name %}{{processes_and_standard.name}}{% else %}Process #{{loop.index}}{% endif %}</a></li>
+                {% endfor %}
+              {% endif %}
+              <li><a href="#ethical-considerations" class="smooth-scroll">Ethical considerations</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#findings">Findings</a>
+            <ul>
+              <li><a href="#impact-evaluation-findings" class="smooth-scroll">Impact evaluation findings</a></li>
+              <li><a href="#process-evaluation-findings" class="smooth-scroll">Process evaluation findings</a></li>
+              <li><a href="#economic-evaluation-findings" class="smooth-scroll">Economic evaluation findings</a></li>
+              <li><a href="#other-evaluation-findings" class="smooth-scroll">Other evaluation findings</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#cost">Cost</a>
+            <ul>
+              {% if data.costs | length == 0 %}
+                <li><a href="#evaluation-costs" class="smooth-scroll">Evaluation costs</a></li>
+              {% else %}
+                </ul>
+                  <h3 class="body-text small mb-0">Evaluation costs:</h3>
+                <ul>
+                {% for cost in data.costs %}
+                  <li><a href="#evaluation-cost-{{loop.index}}" class="smooth-scroll">{% if cost.item_name %}{{cost.item_name}}{% else %}Evaluation cost #{{loop.index}}{% endif %}</a></li>
+                {% endfor %}
+              {% endif %}
+              <li><a href="#policy-costs-and-budget" class="smooth-scroll">Policy costs and budget</a></li>
+            </ul>
+          
+          </li>
+
+
+        </ul>
+
+        </nav>
+
+
+    </div>
+    <div class="col card-results">
+
+
+
+      <div class="card small">
+        <h3 class="header3 highlight" id="background">Background</h3>
+      </div>
+
+      <div class="card small" id="overview">
+        <h4 class="header4 highlight">Overview</h4>
+        <p class="small">{{data.evaluation.brief_description}}</p>
+
+        <table>
+          <tr>
+            <th>Topic(s)</th>
+            <td>
+              {% for topic in data.topics %}
+              <div class="chip green">{{topic}}</div>
+              {% endfor %}
+            </td>
+          </tr>
+          <tr>
+            <th>Organisation(s)</th>
+            <td>
+              {% for organisation in data.organisations %}
+              <div class="chip orange">{{organisation}}</div>
+              {% endfor %}
+              </td>
+          </tr>
+          <tr>
+            <th>Evaluation types</th>
+            <td>
+            {% for evaluation_type in data.evaluation_types %}
+              <p>{{evaluation_type}}</p>
+            {% endfor %}
+          </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card small" id="event-dates">
+        <h4 class="header4 highlight">Event Dates</h4>
+      {% if data.date|length == 0 %}
+        <p>No dates found for this evaluation.</p>
+      {% endif %}
+        <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+
+        {% for date in data.date %}
+        <table>
+          <tr>
+            <th>Event Name</th>
+            <td>{{date.get_event_date_name_display_name()}}</td>
+          </tr>
+          <tr>
+            <th>Event Date</th>
+            <td>
+              <div class="badge">{{date.date.strftime('%b %Y')}}</div>
+            </td>
+          </tr>
+        </table>
+        <hr />
+        {% endfor %}
+      </div>
+
+
+      <div class="card small" id="where-else-is-this-evaluation-registered">
+        <h4 class="header4 highlight">Where else is this evaluation registered?</h4>
+          {% if data.links|length == 0 %}
+            <p>No links found for this evaluation.</p>
+          {% endif %}
+       
+          {% if data.links|length > 0  %}
+          <p class="small">
+          {% for link in data.links %}
+            {% if link.link %}
+              <a href="{% if not (link.link.startswith('https://')) %}https://{% endif %}{{link.link}}" rel="external" target="_blank">{% if link.name %}{{link.name}}{% else %}No name provided for link{% endif %}</a><br />
+            {% else %}
+              <p>{% if link.name %}{{link.name}} (No link address provided){% else %}No name or link address provided for link{% endif %}</p>
+            {% endif %}
+          {% endfor %}
+          </p>
+          {% endif %}
+      </div>
+
+      <div class="card small" id="issue-description">
+        <h4 class="header4 highlight">Issue description</h4>
+      <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+        <table>
+          <tr>
+            <th>Why would improvements in relation to this issue matter?</th>
+            <td>{% if data.evaluation.why_improvements_matter %}{{data.evaluation.why_improvements_matter}}{% else %}N/A{% endif %}</td>
+          </tr>
+          <tr>
+            <th>Who does it matter to?</th>
+            <td>{% if data.evaluation.who_improvements_matter_to %}{{data.evaluation.who_improvements_matter_to}}{% else %}N/A{% endif %}</td>
+          </tr>
+          <tr>
+            <th>Current practice</th>
+            <td>{% if data.evaluation.current_practice %}{{data.evaluation.current_practice}}{% else %}N/A{% endif %}</td>
+          </tr>
+          <tr>
+            <th>Relevance of the study</th>
+            <td>{% if data.evaluation.issue_relevance %}{{data.evaluation.issue_relevance}}{% else %}N/A{% endif %}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card small" id="theory-of-change">
+        <h4 class="header4 highlight">Theory of change</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+      </div>
+
+      <div class="card small" id="technical-report">
+        <h4 class="header4 highlight">Technical report</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+      </div>
+
+      <div class="card small">
+        <h3 class="header3 highlight">What is measured?</h3>
+        <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+      </div>
+
+      {% if data.interventions|length == 0 %}
+        <div class="card small" id="interventions">
+          <h3 class="header3 highlight">Interventions</h3>
+          <p>No interventions found for this evaluation.</p>
+        </div>
+      {% else %}
+      <div class="card small" id="interventions">
+        <h3 class="header3 highlight">Interventions</h3>
+      </div>
+        {% for intervention in data.interventions %}
+          <div class="card small with-accordion" id="intervention-{{loop.index}}">
+            <header>
+              <h4 class="header4 highlight">{{ intervention.name }}</h4>
+            </header>
+            <div class="content">
+              <table>
+                <tr>
+                  <th>Description</th>
+                  <td>{% if intervention.brief_description %}{{intervention.brief_description}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Rationale</th>
+                  <td>{% if intervention.rationale %}{{intervention.rationale}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Materials used</th>
+                  <td>{% if intervention.materials_used %}{{intervention.materials_used}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Procedures</th>
+                  <td>{% if intervention.procedures %}{{intervention.procedures}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Provider description</th>
+                  <td>{% if intervention.provider_description %}{{intervention.provider_description}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Modes of delivery</th>
+                  <td>{% if intervention.modes_of_delivery %}{{intervention.modes_of_delivery}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Location</th>
+                  <td>{% if intervention.location %}{{intervention.location}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Frequency of delivery</th>
+                  <td>{% if intervention.frequency_of_delivery %}{{intervention.frequency_of_delivery}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Tailoring</th>
+                  <td>{% if intervention.tailoring %}{{intervention.tailoring}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Fidelity</th>
+                  <td>{% if intervention.fidelity %}{{intervention.fidelity}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Resource requirements</th>
+                  <td>{% if intervention.resource_requirements %}{{intervention.resource_requirements}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Geographical information</th>
+                  <td>{% if intervention.geographical_information %}{{intervention.geographical_information}}{% else %}N/A{% endif %}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+    {% if data.outcome_measures|length == 0 %}
+      <div class="card small" id="outcome-measures">
+        <h3 class="header3 highlight">Outcome measures</h3>
+        <p>No outcome measures found for this evaluation.</p>
+      </div>
+    {% else %}
+      <div class="card small" id="outcome-measures">
+        <h3 class="header3 highlight">Outcome measures</h3>
+      </div>
+      {% for outcome_measure in data.outcome_measures %}
+        <div class="card small with-accordion" id="outcome-measure-{{loop.index}}">
+          <header>
+            <h4 class="header4 highlight">{{ outcome_measure.name }}</h4>
+          </header>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Primary or secondary</th>
+                <td>{% if outcome_measure.primary_or_secondary %}{{outcome_measure.get_primary_or_secondary_display_name()}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Direct or surrogate</th>
+                <td>{% if outcome_measure.direct_or_surrogate %}{{outcome_measure.get_direct_or_surrogate_display_name()}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Measure type</th>
+                <td>{% if outcome_measure.measure_type %}{{outcome_measure.get_measure_type_display_name()}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Measure type (other)</th>
+                <td>{% if outcome_measure.measure_type_other %}{{outcome_measure.measure_type_other}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>{% if outcome_measure.description %}{{outcome_measure.description}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Collection process</th>
+                <td>{% if outcome_measure.collection_process %}{{outcome_measure.collection_process}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Timepoint(s) of interest</th>
+                <td>{% if outcome_measure.timepoint %}{{outcome_measure.timepoint}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Minimum practically important difference</th>
+                <td>{% if outcome_measure.minimum_difference %}{{outcome_measure.minimum_difference}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Relevance of outcome</th>
+                <td>{% if outcome_measure.relevance %}{{outcome_measure.relevance}}{% else %}N/A{% endif %}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if data.other_measures|length == 0 %}
+      <div class="card small" id="other-measures">
+        <h3 class="header3 highlight">Other measures</h3>
+        <p>No other measures found for this evaluation.</p>
+      </div>
+    {% else %}
+      <div class="card small" id="other-measures">
+        <h3 class="header3 highlight">Other measures</h3>
+      </div>
+      {% for other_measure in data.other_measures %}
+          <div class="card small with-accordion" id="other-measure-{{loop.index}}">
+            <header>
+              <h4 class="header4 highlight">{{ other_measure.name }}</h4>
+            </header>
+            <div class="content">
+              <table>
+                <tr>
+                  <th>Measure type</th>
+                  <td>{% if other_measure.measure_type %}{{other_measure.get_measure_type_display_name()}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Measure type (other)</th>
+                  <td>{% if other_measure.measure_type_other %}{{other_measure.measure_type_other}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{% if other_measure.description %}{{other_measure.description}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Collection process</th>
+                  <td>{% if other_measure.collection_process %}{{other_measure.collection_process}}{% else %}N/A{% endif %}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="card small" id="evaluation-design">
+      <h3 class="header3 highlight">Evaluation design</h3>
+    </div>  
+      
+    <div class="card small" id="impact-evaluation-design">
+      <h4 class="header4 highlight">Impact evaluation design</h4>
+      <table>
+        <tr>
+          <th>Design name</th>
+        {% if not data.evaluation.impact_eval_design_name %}
+          <td>N/A</td>
+        {% else %}
+          <td>
+          {% for design_name in data.evaluation.impact_eval_design_name %}
+            <p>{{design_name}}</p>
+          {% endfor %}
+          </td>
+        {% endif %}
+        </tr>
+        <tr>
+          <th>Justification for design</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_justification %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_justification}}
+          {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Description of planned design</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_description %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_description}}
+          {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Features to reflect real-world implementation</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_features %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_features}}
+          {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Equity</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_equity %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_equity}}
+          {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Assumptions</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_assumptions %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_assumptions}}
+          {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Limitations of approach</th>
+          <td>
+            {% if not data.evaluation.impact_eval_design_approach_limitations %}
+            N/A
+          {% else %}
+            {{data.evaluation.impact_eval_design_approach_limitations}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  <div class="card small" id="process-evaluation-design">
+    <h4 class="header4 highlight">Process evaluation design</h4>
+    
+    <table>
+      <tr>
+        <th>Not yet completed</th>
+        <td>
+          Not answered
+        </td>
+      </tr>
+    </table>
+    </div>
+
+  <div class="card small" id="economic-evaluation-design">
+      <h4 class="header4 highlight">Economic evaluation design</h4>
+      <table>
+        <tr>
+          <th>Economic evaluation</th>
+          <td>
+            {% if not data.evaluation.economic_eval_type %}
+            N/A
+          {% else %}
+            {{data.evaluation.get_economic_eval_type_display_name()}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Perspective: costs</th>
+          <td>
+            {% if not data.evaluation.perspective_costs %}
+            N/A
+          {% else %}
+            {{data.evaluation.perspective_costs}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Perspective: benefits</th>
+          <td>
+            {% if not data.evaluation.perspective_benefits %}
+            N/A
+          {% else %}
+            {{data.evaluation.perspective_benefits}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Monetisation approach(es)</th>
+          <td>
+            {% if not data.evaluation.monetisation_approaches %}
+            N/A
+          {% else %}
+            {{data.evaluation.monetisation_approaches}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Design details</th>
+          <td>
+            {% if not data.evaluation.economic_eval_design_details %}
+            N/A
+          {% else %}
+            {{data.evaluation.economic_eval_design_details}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  <div class="card small" id="other-evaluation-design">
+      <h4 class="header4 highlight">Other evaluation design</h4>
+      <table>
+        <tr>
+          <th>Design type</th>
+          <td>
+            {% if not data.evaluation.other_eval_design_type %}
+            N/A
+          {% else %}
+            {{data.evaluation.other_eval_design_type}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Design details</th>
+          <td>
+            {% if not data.evaluation.other_eval_design_details %}
+            N/A
+          {% else %}
+            {{data.evaluation.other_eval_design_details}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  <div class="card small" id="studied-population">
+      <h4 class="header4 highlight">Studied population</h4>
+      <table>
+        <tr>
+          <th>Studied population including location</th>
+          <td>
+            {% if not data.evaluation.studied_population %}
+            N/A
+          {% else %}
+            {{data.evaluation.studied_population}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Eligibility criteria</th>
+          <td>
+            {% if not data.evaluation.eligibility_criteria %}
+            N/A
+          {% else %}
+            {{data.evaluation.eligibility_criteria}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Sample size</th>
+          <td>
+            {% if not data.evaluation.sample_size %}
+            N/A
+          {% else %}
+            {{data.evaluation.sample_size}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Sample size units</th>
+          <td>
+            {% if not data.evaluation.sample_size_units %}
+            N/A
+          {% else %}
+            {{data.evaluation.sample_size_units}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Sample size details</th>
+          <td>
+            {% if not data.evaluation.sample_size_details %}
+            N/A
+          {% else %}
+            {{data.evaluation.sample_size_details}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  <div class="card small" id="participant-recruitment">
+      <h4 class="header4 highlight">Participant recruitment</h4>
+      <table>
+        <tr>
+          <th>Process for recruitment</th>
+          <td>
+            {% if not data.evaluation.process_for_recruitment %}
+            N/A
+          {% else %}
+            {{data.evaluation.process_for_recruitment}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Recruitment schedule including date of first recruitment</th>
+          <td>
+            {% if not data.evaluation.recruitment_schedule %}
+            N/A
+          {% else %}
+            {{data.evaluation.recruitment_schedule}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card small" id="analysis">
+        <h3 class="header3 highlight">Analysis</h3>
+    </div>
+        
+    <div class="card small" id="impact-evaluation-analysis">
+      <h4 class="header4 highlight">Impact evaluation analysis</h4>
+        <table>
+          <tr>
+            <th>Framework</th>
+            <td>
+              {% if not data.evaluation.impact_eval_framework %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_framework_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Analysis basis</th>
+            <td>
+              {% if not data.evaluation.impact_eval_basis %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_basis_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Analysis set</th>
+            <td>
+              {% if not data.evaluation.impact_eval_analysis_set %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_analysis_set}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Primary effect size measure type</th>
+            <td>
+              {% if not data.evaluation.impact_eval_effect_measure_type %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_effect_measure_type_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Primary effect size measure</th>
+            <td>
+              {% if not data.evaluation.impact_eval_primary_effect_size_measure %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_primary_effect_size_measure}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Primary effect size measure interval</th>
+            <td>
+              {% if not data.evaluation.impact_eval_effect_measure_interval %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_effect_measure_interval_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>Primary effect size measure description</th>
+            <td>
+              {% if not data.evaluation.impact_eval_primary_effect_size_desc %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_primary_effect_size_desc}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Interpretation type</th>
+            <td>
+              {% if not data.evaluation.impact_eval_interpretation_type %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_interpretation_type_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Sensitivity analysis</th>
+            <td>
+              {% if not data.evaluation.impact_eval_sensitivity_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_sensitivity_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Subgroup analysis</th>
+            <td>
+              {% if not data.evaluation.impact_eval_subgroup_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_subgroup_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Missing data handling</th>
+            <td>
+              {% if not data.evaluation.impact_eval_missing_data_handling %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_missing_data_handling}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Fidelity reporting</th>
+            <td>
+              {% if not data.evaluation.impact_eval_fidelity %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_fidelity_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Description of planned analysis</th>
+            <td>
+              {% if not data.evaluation.impact_eval_desc_planned_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_desc_planned_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card small" id="process-evaluation-analysis">
+        <h4 class="header4 highlight">Process evaluation analysis</h4>
+        <table>
+          <tr>
+            <th>Description of planned analysis</th>
+            <td>
+              {% if not data.evaluation.process_eval_desc_planned_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.process_eval_desc_planned_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card small" id="economic-evaluation-analysis">
+        <h4 class="header4 highlight">Economic evaluation analysis</h4>
+        <table>
+          <tr>
+            <th>Description of planned analysis</th>
+            <td>
+              {% if not data.evaluation.economic_eval_desc_planned_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.economic_eval_desc_planned_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card small" id="other-evaluation-analysis">
+        <h4 class="header4 highlight">Other evaluation analysis</h4>
+        <table>
+          <tr>
+            <th>Description of planned analysis</th>
+            <td>
+              {% if not data.evaluation.other_eval_desc_planned_analysis %}
+              N/A
+            {% else %}
+              {{data.evaluation.other_eval_desc_planned_analysis}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    {% if data.processes_and_standards|length == 0 %}
+        <div class="card small" id="no-processes">
+          <h4 class="header4 highlight">Processes</h4>
+          <p>No processes found for this evaluation.</p>
+        </div>
+      {% else %}
+        {% for processes_and_standard in data.processes_and_standards %}
+          <div class="card small with-accordion" id="process-standard-{{loop.index}}">
+            <header>
+              <h4 class="header4 highlight">{{ processes_and_standard.name }}</h4>
+            </header>
+            <div class="content">
+              <table>
+                <tr>
+                  <th>Conformity</th>
+                  <td>{% if processes_and_standard.conformity %}{{processes_and_standard.get_conformity_display_name()}}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td>{% if processes_and_standard.description %}{{processes_and_standard.description}}{% else %}N/A{% endif %}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="card small" id="ethical-considerations">
+        <h4 class="header4 highlight">Ethical considerations</h4>
+        <table>
+          <tr>
+            <th>Ethical committee approval</th>
+            <td>
+              {% if not data.evaluation.ethics_committee_approval %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_ethics_committee_approval_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Ethical committee details</th>
+            <td>
+              {% if not data.evaluation.ethics_committee_details %}
+              N/A
+            {% else %}
+              {{data.evaluation.ethics_committee_details}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Ethical state of study given existing evidence base</th>
+            <td>
+              {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
+              N/A
+            {% else %}
+              {{data.evaluation.ethical_state_given_existing_evidence_base}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Ethical state of study given existing evidence base</th>
+            <td>
+              {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
+              N/A
+            {% else %}
+              {{data.evaluation.ethical_state_given_existing_evidence_base}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Risks to participants</th>
+            <td>
+              {% if not data.evaluation.risks_to_participants %}
+              N/A
+            {% else %}
+              {{data.evaluation.risks_to_participants}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Risks to study team</th>
+            <td>
+              {% if not data.evaluation.risks_to_study_team %}
+              N/A
+            {% else %}
+              {{data.evaluation.risks_to_study_team}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Participant involvement</th>
+            <td>
+              {% if not data.evaluation.participant_involvement %}
+              N/A
+            {% else %}
+              {{data.evaluation.participant_involvement}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Participant consent</th>
+            <td>
+              {% if not data.evaluation.participant_consent %}
+              N/A
+            {% else %}
+              {{data.evaluation.participant_consent}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Participant information</th>
+            <td>
+              {% if not data.evaluation.participant_information %}
+              N/A
+            {% else %}
+              {{data.evaluation.participant_information}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Participant payment</th>
+            <td>
+              {% if not data.evaluation.participant_payment %}
+              N/A
+            {% else %}
+              {{data.evaluation.participant_payment}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Confidentiality and personal data</th>
+            <td>
+              {% if not data.evaluation.confidentiality_and_personal_data %}
+              N/A
+            {% else %}
+              {{data.evaluation.confidentiality_and_personal_data}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Breaking confidentiality</th>
+            <td>
+              {% if not data.evaluation.breaking_confidentiality %}
+              N/A
+            {% else %}
+              {{data.evaluation.breaking_confidentiality}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Other ethical information</th>
+            <td>
+              {% if not data.evaluation.other_ethical_information %}
+              N/A
+            {% else %}
+              {{data.evaluation.other_ethical_information}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="card small" id="findings">
+        <h3 class="header3 highlight">Findings</h3>
+      </div>
+
+      <div class="card small" id="impact-evaluation-findings">
+        <h4 class="header4 highlight">Impact evaluation findings</h4>
+        <table>
+          <tr>
+            <th>Comparison</th>
+            <td>
+              {% if not data.evaluation.impact_eval_comparison %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_comparison}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Outcome</th>
+            <td>
+              {% if not data.evaluation.impact_eval_outcome %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_outcome}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Interpretation</th>
+            <td>
+              {% if not data.evaluation.impact_eval_interpretation %}
+              N/A
+            {% else %}
+              {{data.evaluation.get_impact_eval_interpretation_display_name()}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Point estimate of difference</th>
+            <td>
+              {% if not data.evaluation.impact_eval_point_estimate_diff %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_point_estimate_diff}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Lower uncertainty bound</th>
+            <td>
+              {% if not data.evaluation.impact_eval_lower_uncertainty %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_lower_uncertainty}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Upper uncertainty bound</th>
+            <td>
+              {% if not data.evaluation.impact_eval_upper_uncertainty %}
+              N/A
+            {% else %}
+              {{data.evaluation.impact_eval_upper_uncertainty}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    <div class="card small" id="process-evaluation-findings">
+        <h4 class="header4 highlight">Process evaluation findings</h4>
+        <table>
+          <tr>
+            <th>Summary findings</th>
+            <td>
+              {% if not data.evaluation.process_eval_summary_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.process_eval_summary_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Findings</th>
+            <td>
+              {% if not data.evaluation.process_eval_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.process_eval_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    <div class="card small" id="economic-evaluation-findings">
+        <h4 class="header4 highlight">Economic evaluation findings</h4>
+        <table>
+          <tr>
+            <th>Summary findings</th>
+            <td>
+              {% if not data.evaluation.economic_eval_summary_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.economic_eval_summary_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Findings</th>
+            <td>
+              {% if not data.evaluation.economic_eval_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.economic_eval_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    <div class="card small" id="other-evaluation-findings">
+        <h4 class="header4 highlight">Other evaluation findings</h4>
+        <table>
+          <tr>
+            <th>Summary findings</th>
+            <td>
+              {% if not data.evaluation.other_eval_summary_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.other_eval_summary_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        <tr>
+            <th>Findings</th>
+            <td>
+              {% if not data.evaluation.other_eval_findings %}
+              N/A
+            {% else %}
+              {{data.evaluation.other_eval_findings}}
+            {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+
+      <div class="card small with-accordion" id="cost">
+        <header aria-expanded="false">
+          <h3 class="header3 highlight">Cost</h3>
+        </header>
+        <div class="content">
+          <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+        </div>
+      </div>
+
+    {% if data.costs|length == 0 %}
+        <div class="card small" id="evaluation-costs">
+          <h4 class="header4 highlight">Evaluation costs</h4>
+          <p>No evaluation costs found for this evaluation.</p>
+        </div>
+      {% else %}
+        {% for cost in data.costs %}
+          <div class="card small with-accordion" id="evaluation-cost-{{loop.index}}">
+            <header>
+              <h4 class="header4 highlight">{{ cost.item_name }}</h4>
+            </header>
+          <div class="content">
+            <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+            <table>
+              <tr>
+                <th>Description</th>
+                <td>{% if cost.description %}{{cost.description}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Item cost (£)</th>
+                <td>{% if cost.item_cost %}{{cost.item_cost}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Earliest spend date</th>
+                <td>{% if cost.earliest_spend_date %}{{cost.earliest_spend_date.strftime('%d %b %Y')}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Latest spend date</th>
+                <td>{% if cost.latest_spend_date %}{{cost.latest_spend_date.strftime('%d %b %Y')}}{% else %}N/A{% endif %}</td>
+              </tr>
+            </table>
+          </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+    <div class="card small" id="policy-costs-and-budget">
+        <h4 class="header4 highlight">Policy costs and budget</h4>
+        <table>
+          <tr>
+            <th>Not yet completed</th>
+            <td>Not answered</td>
+          </tr>
+        </table>
+      </div>
+
+    <div class="wrapper">
+
+    {% if user_can_edit %}
+      <a href="{{url("intro", args=[data.id])}}" class="button float-right">Edit evaluation</a>
+    {% endif %}
+  </div>
+  </div>
+{% endblock %}
