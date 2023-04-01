@@ -33,11 +33,9 @@
             <a href="#background" class="active">Background</a>
             <ul>
               <li><a href="#overview" class="smooth-scroll">Overview</a></li>
-              <li><a href="#event-dates" class="smooth-scroll">Key Dates</a></li>
-              <li><a href="#where-else-is-this-evaluation-registered" class="smooth-scroll">Where else is this evaluation registered?</a></li>
+              <li><a href="#key-dates" class="smooth-scroll">Key dates</a></li>
               <li><a href="#issue-description" class="smooth-scroll">Issue description</a></li>
               <li><a href="#theory-of-change" class="smooth-scroll">Theory of change</a></li>
-              <li><a href="#technical-report" class="smooth-scroll">Technical report</a></li>
             </ul>
           </li>
           <li>
@@ -106,17 +104,6 @@
               <li><a href="#process-evaluation-analysis" class="smooth-scroll">Process evaluation analysis</a></li>
               <li><a href="#economic-evaluation-analysis" class="smooth-scroll">Economic evaluation analysis</a></li>
               <li><a href="#other-evaluation-analysis" class="smooth-scroll">Other evaluation analysis</a></li>
-              {% if data.processes_and_standards | length == 0 %}
-                <li><a href="#no-processes" class="smooth-scroll">Processes</a></li>
-              {% else %}
-                </ul>
-                  <h3 class="body-text small mb-0">Processes and standards:</h3>
-                <ul>
-                {% for processes_and_standard in data.processes_and_standards %}
-                  <li><a href="#process-standard-{{loop.index}}" class="smooth-scroll">{% if processes_and_standard.name %}{{processes_and_standard.name}}{% else %}Process #{{loop.index}}{% endif %}</a></li>
-                {% endfor %}
-              {% endif %}
-              <li><a href="#ethical-considerations" class="smooth-scroll">Ethical considerations</a></li>
             </ul>
           </li>
 
@@ -126,6 +113,8 @@
               <li><a href="#process-evaluation-findings" class="smooth-scroll">Process evaluation findings</a></li>
               <li><a href="#economic-evaluation-findings" class="smooth-scroll">Economic evaluation findings</a></li>
               <li><a href="#other-evaluation-findings" class="smooth-scroll">Other evaluation findings</a></li>
+
+              <li><a href="#technical-report" class="smooth-scroll">Technical report</a></li>
             </ul>
           </li>
 
@@ -143,10 +132,24 @@
               {% endif %}
               <li><a href="#policy-costs-and-budget" class="smooth-scroll">Policy costs and budget</a></li>
             </ul>
-          
           </li>
 
-
+          <li><a href="#supplementary-information">Supplementary information</a>
+            <ul>
+              <li><a href="#where-else-is-this-evaluation-registered" class="smooth-scroll">Where else is this evaluation registered?</a></li>
+            </ul>
+          </li>
+          {% if data.processes_and_standards | length == 0 %}
+          <li><a href="#no-processes" class="smooth-scroll">Processes</a></li>
+        {% else %}
+          </ul>
+            <h3 class="body-text small mb-0">Processes and standards:</h3>
+          <ul>
+          {% for processes_and_standard in data.processes_and_standards %}
+            <li><a href="#process-standard-{{loop.index}}" class="smooth-scroll">{% if processes_and_standard.name %}{{processes_and_standard.name}}{% else %}Process #{{loop.index}}{% endif %}</a></li>
+          {% endfor %}
+        {% endif %}
+        <li><a href="#ethical-considerations" class="smooth-scroll">Ethical considerations</a></li>
         </ul>
 
         </nav>
@@ -193,8 +196,8 @@
         </table>
       </div>
 
-      <div class="card small" id="event-dates">
-        <h4 class="header4 highlight">Event Dates</h4>
+      <div class="card small" id="key-dates">
+        <h4 class="header4 highlight">Key Dates</h4>
       {% if data.date|length == 0 %}
         <p>No dates found for this evaluation.</p>
       {% endif %}
@@ -218,24 +221,6 @@
       </div>
 
 
-      <div class="card small" id="where-else-is-this-evaluation-registered">
-        <h4 class="header4 highlight">Where else is this evaluation registered?</h4>
-          {% if data.links|length == 0 %}
-            <p>No links found for this evaluation.</p>
-          {% endif %}
-       
-          {% if data.links|length > 0  %}
-          <p class="small">
-          {% for link in data.links %}
-            {% if link.link %}
-              <a href="{% if not (link.link.startswith('https://')) %}https://{% endif %}{{link.link}}" rel="external" target="_blank">{% if link.name %}{{link.name}}{% else %}No name provided for link{% endif %}</a><br />
-            {% else %}
-              <p>{% if link.name %}{{link.name}} (No link address provided){% else %}No name or link address provided for link{% endif %}</p>
-            {% endif %}
-          {% endfor %}
-          </p>
-          {% endif %}
-      </div>
 
       <div class="card small" id="issue-description">
         <h4 class="header4 highlight">Issue description</h4>
@@ -265,10 +250,6 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
       </div>
 
-      <div class="card small" id="technical-report">
-        <h4 class="header4 highlight">Technical report</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
-      </div>
 
       <div class="card small">
         <h3 class="header3 highlight">What is measured?</h3>
@@ -888,169 +869,6 @@
         </table>
       </div>
 
-    {% if data.processes_and_standards|length == 0 %}
-        <div class="card small" id="no-processes">
-          <h4 class="header4 highlight">Processes</h4>
-          <p>No processes found for this evaluation.</p>
-        </div>
-      {% else %}
-        {% for processes_and_standard in data.processes_and_standards %}
-          <div class="card small with-accordion" id="process-standard-{{loop.index}}">
-            <header>
-              <h4 class="header4 highlight">{{ processes_and_standard.name }}</h4>
-            </header>
-            <div class="content">
-              <table>
-                <tr>
-                  <th>Conformity</th>
-                  <td>{% if processes_and_standard.conformity %}{{processes_and_standard.get_conformity_display_name()}}{% else %}N/A{% endif %}</td>
-                </tr>
-                <tr>
-                  <th>Description</th>
-                  <td>{% if processes_and_standard.description %}{{processes_and_standard.description}}{% else %}N/A{% endif %}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        {% endfor %}
-      {% endif %}
-
-      <div class="card small" id="ethical-considerations">
-        <h4 class="header4 highlight">Ethical considerations</h4>
-        <table>
-          <tr>
-            <th>Ethical committee approval</th>
-            <td>
-              {% if not data.evaluation.ethics_committee_approval %}
-              N/A
-            {% else %}
-              {{data.evaluation.get_ethics_committee_approval_display_name()}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Ethical committee details</th>
-            <td>
-              {% if not data.evaluation.ethics_committee_details %}
-              N/A
-            {% else %}
-              {{data.evaluation.ethics_committee_details}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Ethical state of study given existing evidence base</th>
-            <td>
-              {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
-              N/A
-            {% else %}
-              {{data.evaluation.ethical_state_given_existing_evidence_base}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Ethical state of study given existing evidence base</th>
-            <td>
-              {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
-              N/A
-            {% else %}
-              {{data.evaluation.ethical_state_given_existing_evidence_base}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Risks to participants</th>
-            <td>
-              {% if not data.evaluation.risks_to_participants %}
-              N/A
-            {% else %}
-              {{data.evaluation.risks_to_participants}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Risks to study team</th>
-            <td>
-              {% if not data.evaluation.risks_to_study_team %}
-              N/A
-            {% else %}
-              {{data.evaluation.risks_to_study_team}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Participant involvement</th>
-            <td>
-              {% if not data.evaluation.participant_involvement %}
-              N/A
-            {% else %}
-              {{data.evaluation.participant_involvement}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Participant consent</th>
-            <td>
-              {% if not data.evaluation.participant_consent %}
-              N/A
-            {% else %}
-              {{data.evaluation.participant_consent}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Participant information</th>
-            <td>
-              {% if not data.evaluation.participant_information %}
-              N/A
-            {% else %}
-              {{data.evaluation.participant_information}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Participant payment</th>
-            <td>
-              {% if not data.evaluation.participant_payment %}
-              N/A
-            {% else %}
-              {{data.evaluation.participant_payment}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Confidentiality and personal data</th>
-            <td>
-              {% if not data.evaluation.confidentiality_and_personal_data %}
-              N/A
-            {% else %}
-              {{data.evaluation.confidentiality_and_personal_data}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Breaking confidentiality</th>
-            <td>
-              {% if not data.evaluation.breaking_confidentiality %}
-              N/A
-            {% else %}
-              {{data.evaluation.breaking_confidentiality}}
-            {% endif %}
-            </td>
-          </tr>
-        <tr>
-            <th>Other ethical information</th>
-            <td>
-              {% if not data.evaluation.other_ethical_information %}
-              N/A
-            {% else %}
-              {{data.evaluation.other_ethical_information}}
-            {% endif %}
-            </td>
-          </tr>
-        </table>
-      </div>
-
 
       <div class="card small" id="findings">
         <h3 class="header3 highlight">Findings</h3>
@@ -1200,6 +1018,10 @@
         </table>
       </div>
 
+      <div class="card small" id="technical-report">
+        <h4 class="header4 highlight">Technical report</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis nisi eu sem tincidunt ultrices hendrerit consectetur mi. Integer non sodales nisl. Proin pulvinar massa sed consequat semper. Etiam pulvinar quam at orci interdum, at vestibulum augue consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas</p>
+      </div>
 
 
       <div class="card small with-accordion" id="cost">
@@ -1256,6 +1078,194 @@
           </tr>
         </table>
       </div>
+
+      <div class="card small">
+        <h3 class="header3 highlight" id="supplementary-information">Supplementary information</h3>
+      </div>
+
+
+      <div class="card small" id="where-else-is-this-evaluation-registered">
+        <h4 class="header4 highlight">Where else is this evaluation registered?</h4>
+          {% if data.links|length == 0 %}
+            <p>No links found for this evaluation.</p>
+          {% endif %}
+       
+          {% if data.links|length > 0  %}
+          <p class="small">
+          {% for link in data.links %}
+            {% if link.link %}
+              <a href="{% if not (link.link.startswith('https://')) %}https://{% endif %}{{link.link}}" rel="external" target="_blank">{% if link.name %}{{link.name}}{% else %}No name provided for link{% endif %}</a><br />
+            {% else %}
+              <p>{% if link.name %}{{link.name}} (No link address provided){% else %}No name or link address provided for link{% endif %}</p>
+            {% endif %}
+          {% endfor %}
+          </p>
+          {% endif %}
+      </div>
+
+      {% if data.processes_and_standards|length == 0 %}
+      <div class="card small" id="no-processes">
+        <h4 class="header4 highlight">Processes</h4>
+        <p>No processes found for this evaluation.</p>
+      </div>
+    {% else %}
+      {% for processes_and_standard in data.processes_and_standards %}
+        <div class="card small with-accordion" id="process-standard-{{loop.index}}">
+          <header>
+            <h4 class="header4 highlight">{{ processes_and_standard.name }}</h4>
+          </header>
+          <div class="content">
+            <table>
+              <tr>
+                <th>Conformity</th>
+                <td>{% if processes_and_standard.conformity %}{{processes_and_standard.get_conformity_display_name()}}{% else %}N/A{% endif %}</td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td>{% if processes_and_standard.description %}{{processes_and_standard.description}}{% else %}N/A{% endif %}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="card small" id="ethical-considerations">
+      <h4 class="header4 highlight">Ethical considerations</h4>
+      <table>
+        <tr>
+          <th>Ethical committee approval</th>
+          <td>
+            {% if not data.evaluation.ethics_committee_approval %}
+            N/A
+          {% else %}
+            {{data.evaluation.get_ethics_committee_approval_display_name()}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Ethical committee details</th>
+          <td>
+            {% if not data.evaluation.ethics_committee_details %}
+            N/A
+          {% else %}
+            {{data.evaluation.ethics_committee_details}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Ethical state of study given existing evidence base</th>
+          <td>
+            {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
+            N/A
+          {% else %}
+            {{data.evaluation.ethical_state_given_existing_evidence_base}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Ethical state of study given existing evidence base</th>
+          <td>
+            {% if not data.evaluation.ethical_state_given_existing_evidence_base %}
+            N/A
+          {% else %}
+            {{data.evaluation.ethical_state_given_existing_evidence_base}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Risks to participants</th>
+          <td>
+            {% if not data.evaluation.risks_to_participants %}
+            N/A
+          {% else %}
+            {{data.evaluation.risks_to_participants}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Risks to study team</th>
+          <td>
+            {% if not data.evaluation.risks_to_study_team %}
+            N/A
+          {% else %}
+            {{data.evaluation.risks_to_study_team}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Participant involvement</th>
+          <td>
+            {% if not data.evaluation.participant_involvement %}
+            N/A
+          {% else %}
+            {{data.evaluation.participant_involvement}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Participant consent</th>
+          <td>
+            {% if not data.evaluation.participant_consent %}
+            N/A
+          {% else %}
+            {{data.evaluation.participant_consent}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Participant information</th>
+          <td>
+            {% if not data.evaluation.participant_information %}
+            N/A
+          {% else %}
+            {{data.evaluation.participant_information}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Participant payment</th>
+          <td>
+            {% if not data.evaluation.participant_payment %}
+            N/A
+          {% else %}
+            {{data.evaluation.participant_payment}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Confidentiality and personal data</th>
+          <td>
+            {% if not data.evaluation.confidentiality_and_personal_data %}
+            N/A
+          {% else %}
+            {{data.evaluation.confidentiality_and_personal_data}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Breaking confidentiality</th>
+          <td>
+            {% if not data.evaluation.breaking_confidentiality %}
+            N/A
+          {% else %}
+            {{data.evaluation.breaking_confidentiality}}
+          {% endif %}
+          </td>
+        </tr>
+      <tr>
+          <th>Other ethical information</th>
+          <td>
+            {% if not data.evaluation.other_ethical_information %}
+            N/A
+          {% else %}
+            {{data.evaluation.other_ethical_information}}
+          {% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+
 
     <div class="wrapper">
 
