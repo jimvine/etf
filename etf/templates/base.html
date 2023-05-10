@@ -37,10 +37,7 @@
             <a href="{{url('my-evaluations')}}" {% if request.path==url('my-evaluations') %}aria-current="page"{% endif %}>
               My evaluations
             </a>
-
-            <form action="{{url('index')}}" method="POST">{{csrf_input}}
-               <button class="bttn-primary" type="submit">New evaluation</button>
-            </form>
+            <a class="bttn-primary" href="{{url('create-evaluation')}}">Create evaluation</a>
             <a href="{{url('account_logout')}}">Logout</a>
             </nav>
             {% endif %}
@@ -51,7 +48,7 @@
        <div class="phase-banner">
          <div class="container">            
           <p>
-            <strong class="tag">BETA</strong>
+            <strong class="tag">ALPHA</strong>
             <span>This is a new service – your <a class="link" href="#">feedback</a> will help us to improve it.</span>
          </p>
          </div>
